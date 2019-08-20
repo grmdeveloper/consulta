@@ -1,48 +1,51 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-    	Unidades
+    	MAPA
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-card *ngFor="let unidade of unidades">
-    <ion-card-header>
-      	{{unidade.nome}}
-    </ion-card-header>
-  
-    <ion-card-content *ngFor="let especialidade of unidade.especialidades">
+	<ion-list>
+	  <ion-list-header>Leitos</ion-list-header>
 
-	    	<ion-item color='dark'>
-	      		<ion-icon slot='start' name="information-circle"></ion-icon>
-	    		Especialidade: {{especialidade.nome}} 
+	  <ion-item>
+	    <ion-label>Unidade</ion-label>
+	    <ion-select  
+	    okText="Selecionar"
+	    cancelText="cancelar"
+	    (ionChange)="getEspecialidades($event)">
+	    	<ion-item *ngFor="let unidade of unidades">
+		    	<ion-select-option value='{{unidade.id}}'>
+		      		{{unidade.nome}}
+		  		</ion-select-option>
 	    	</ion-item>
+	    </ion-select>
+	  </ion-item>
+	</ion-list>
 
-    	<ion-item-sliding>
-	    	<ion-item-options>
-	    		<ion-item-option>
-	    			<ion-icon name="help-circle-outline"></ion-icon>
-	    		</ion-item-option>
-	    	</ion-item-options>
-	    	<ion-item>
-	    		<ion-icon slot='start' name="radio-button-on"></ion-icon>
-	    		Leitos Ocupados:  {{especialidade.o}} 	
-	    	</ion-item>
-    	</ion-item-sliding>
+	<ion-item *ngIf='!seted' color='light'>
+		Selecione uma unidade Hospital <ion-icon name="arrow-up" slot='end'></ion-icon>
+	</ion-item>
 
-	    <ion-item-sliding>
-	    	<ion-item-options>
-	    		<ion-item-option>
-	    			<ion-icon name="help-circle-outline"></ion-icon>
-	    		</ion-item-option>
-	    	</ion-item-options>
-	    	<ion-item>
-	    		<ion-icon slot='start' name="radio-button-off"></ion-icon>
-	    		Leitos Disponíveis:  {{especialidade.d}} 
-	    	</ion-item>
-    	</ion-item-sliding>
-    </ion-card-content>
-  
-  </ion-card>
-</ion-content>
+	<ion-grid class='ion-margin-top ion-text-center' *ngIf="seted">
+		<div style='width:60%; display:inline-block; vertical-align:top;'>			
+			<ion-row>
+				<ion-col>
+				<ion-item color='dark'>Especialidades
+					<ion-icon slot='end' name="arrow-forward"></ion-icon>
+				</ion-item> 
+				</ion-col>
+			</ion-row>
+			<ion-row *ngFor="let item of especialidades">
+				<ion-col (click)="descVagas($event)">
+					<ion-item color='light'>{{item}}
+					</ion-item>
+				</ion-col> 
+			</ion-row>
+		</div>	
+	</ion-grid>
+
+
+	<div id="mapa" style='width:100%; height:400px;'></div>
+    <script id="map" src="https://cors-anywhere.herokuapp.com/http://maps.googleapis.com/maps/api/js?key=AIzaSyDcdW2PsrS1fbsXKmZ6P9Ii8zub5FDu3WQ"></script>
